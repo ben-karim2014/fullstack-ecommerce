@@ -5,7 +5,6 @@ const bycript = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {registerValidation, loginValidation} = require('./validationForm')
 
-//const { check, validationRsult } = require('express-validation')
 const User = require('../models/User')
 
 /** @User authorization && routing login and register 
