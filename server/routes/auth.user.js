@@ -13,7 +13,6 @@ const User = require('../models/User')
  * @Tasks:
  *  *   @Create a user object 
  *      @check and validate data entry
- *      @get the user information firstName, lastName, email, adress, and password
  *      @cheke if the email exist in the database. If it exist throw an error
  *      @if not, get the avatar of the user
  *      @encrypt password
@@ -77,10 +76,13 @@ router.post('/login', async (req, res) => {
 
    //creating payload
    const payload ={
-      id: loggedUser._id
+      _id: loggedUser._id
    }
    //create token and assign it to the logged in user
-   res.send('Logged in!')
+   const token = jwt.sign(payload,process.env.TOKEN_KEY)
+   res.header('Authautication-Key', token).send(token)
+
+   //res.send('Logged in!')
 
 
 });
