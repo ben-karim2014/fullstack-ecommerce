@@ -2,41 +2,94 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const bodyParser =require('body-parser')
+const cookieParser = require('cookie-parser')
 const app = express()
 const connectMongo = require('./config/DbConnect')
-
-const router = require('./routes/auth.user')
-
+// const session = require('express-session')
+// const connectRedis= require('connect-redis')
+// const Redis = require('ioredis')
 require('dotenv').config({path: './config/cfg.env'})
+
+// const RedisStore = new connectRedis(session)
+
+// const redisOptions = {
+//     port:process.env.REDIS_PORT,
+//     host: process.env.REDIS_HOST
+// };
+
+
+// const client = new Redis(redisOptions)
+
+// const HALF_HOUR = process.env.COOKIE_IDLE_TIMEOUT * 60*30
+// const SessionSecureMode = process.env.NODE_ENV.trim() === 'production' ? true : false
+//console.log(SessionSecureMode)
+
+//setting up sessions
+// app.use(session({
+//     //store: new RedisStore({client}),
+//     secret: process.env.SESSION_SECRET,
+//     resave : false,
+//     saveUninitialized: false,
+//     name:process.env.SESSION_NAME,
+//     rolling: true,
+//     cookie:{
+//         maxAge: HALF_HOUR,
+//         httpOnly: true,
+//         secure: SessionSecureMode,
+//         sameSite: true
+//     }
+
+
+// }))
+
+    
+
+const user_route = require('./routes/auth.user')
+const categoryRoute = require('./routes/category')
+
 
 
 
 connectMongo();
 
 
-const PORT =process.env.PORT;
+const PORT =process.env.PORT || 3000;
 
 
 //middlewares bodyparser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-
+app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
+app.use(cookieParser())
 
 
 
 //Routes
 
+//up level route
 app.get('/', (re,res)=>{
     res.send('This is the main page');
 })
 
-app.use('/api/users',router);
+//user routes 
+app.use('/api/v1/users',user_route);
+//category routes
+app.use('/api/v1/category',categoryRoute);
 
+//Manage unknown routes
 app.use((re,res)=>{
     res.status(404).json({Error:'Page not found'});
 })
-app.listen(PORT, () => {
-    console.log(`Server started on ${PORT}`);
+
+//running the server
+const server = app.listen(PORT, () => {
+    console.log(`Server started in ${process.env.NODE_ENV} envirement on port: ${PORT}`);
 });
+
+
+//handle unhandled promise rejections
+process.on('unhandledRejection', (err, promise)=>{
+    console.log(`unhandledRejection Error: ${err.message}`);
+    //close the server 
+    server.close(()=> process.exit(1))
+})

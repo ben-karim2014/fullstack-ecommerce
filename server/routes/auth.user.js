@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const app = express();
 const bycript = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {registerValidation, loginValidation} = require('./validationForm')
@@ -27,11 +26,11 @@ router.post('/register',
    
    // Validating the data based on the schema in the validationForm
    const errors = registerValidation(req.body);
-   if(errors.error) {(res.status(400).send(errors.error.details[0].message))}
+   if(errors.error) {return (res.status(400).send(errors.error.details[0].message))}
 
    //verify that the email is unique
    const userExist = await User.findOne({email: req.body.email});
-   if(userExist){res.status(400).send('This email already exists in our records');}
+   if(userExist){return res.status(400).send('Invalid Email');}
 
    //Hash the password
    const salt = await bycript.genSalt(10);
@@ -46,17 +45,37 @@ router.post('/register',
                password: hashedPassword,
                address: req.body.address
            });
-          
-           try{
+
               //save the User object in the database
               const savedUser = await newuser.save();
-               res.send({user_created: savedUser._id})
-           }
-           catch(error){ 
-             res.status(400).send(error);
-           }
 
-         
+               const payload ={
+                  _id:savedUser._id
+               }
+               const token = jwt.sign(payload,process.env.TOKEN_KEY, {expiresIn :process.env.JWT_EXPIRE})
+               const secure = process.env.NODE_ENV.trim() === 'production' ? true : false 
+            const options = {
+               exprires: new Date(Date.now()+process.env.COOKIE_EXPIR *24 *60*60*1000),
+               httpOnly : true,
+               secure
+            }
+            try{
+               res.status(200)
+                  .send({user_created: "success", token})
+            }
+            catch(err){
+               console.log(err)
+            }
+               
+                  
+
+
+      
+           
+          
+ //create token and assign it to the logged in user
+ //res.header('Authautication-Key', token).send(token)
+ //set up options for the cookie 
 })
 
 //Login route
@@ -64,26 +83,40 @@ router.post('/login', async (req, res) => {
    
    // Validating the data based on the schema in the validationForm
    const errors = loginValidation(req.body);
-   if(errors.error) {(res.status(400).send(errors.error.details[0].message))}
+   if(errors.error) {return ( res.status(400).send(errors.error.details[0].message))}
 
    //Check if the email exist in the database
    const loggedUser = await User.findOne({email: req.body.email});
-   if(!loggedUser){res.status(400).send('Email or password is incorrect');}
+   if(!loggedUser){return res.status(400).send('Email or password is incorrect');}
 
    //If the email exist then Check if its password matches the one provided in the form
    const passValidate = await bycript.compare(req.body.password, loggedUser.password);
-   if(!passValidate){res.status(400).send('Email or password is incorrect');}
+   if(!passValidate){return res.status(400).send('Email or password is incorrect');}
 
    //creating payload
    const payload ={
       _id: loggedUser._id
    }
    //create token and assign it to the logged in user
-   const token = jwt.sign(payload,process.env.TOKEN_KEY)
-   res.header('Authautication-Key', token).send(token)
-
-   //res.send('Logged in!')
-
-
+   const token = jwt.sign(payload,process.env.TOKEN_KEY, {expiresIn :process.env.JWT_EXPIRE})
+   //res.header('Authautication-Key', token).send(token)
+   //set up options for the cookie 
+   const options ={
+      expires: new Date(Date.now+ process.env.COOKIE_EXPIRE *24*60*60*1000),
+      httpOnly: true
+   }
+   if(process.env.NODE_ENV === 'production'){
+      options.session =true;
+   }
+   try{
+      res
+      .status(200)
+      .json({
+         user_created: "success", 
+         token
+      })
+   }
+   catch(err){
+      console.log(err)   }
 });
  module.exports=router

@@ -19,7 +19,9 @@ password:{
     rquired:true
 },
 role: {
+    // 0 is for a normal user and 1 for site admin
     type: Number,
+    enum: [0,1],
     default: 0
 },
 address:{
