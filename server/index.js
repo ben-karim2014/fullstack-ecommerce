@@ -46,7 +46,7 @@ require('dotenv').config({path: './config/cfg.env'})
 
 const user_route = require('./routes/auth.user')
 const categoryRoute = require('./routes/category')
-
+const productRoute = require('./routes/product')
 
 
 
@@ -75,6 +75,8 @@ app.get('/', (re,res)=>{
 app.use('/api/v1/users',user_route);
 //category routes
 app.use('/api/v1/category',categoryRoute);
+//product routes
+app.use('/api/v1/product', productRoute);
 
 //Manage unknown routes
 app.use((re,res)=>{

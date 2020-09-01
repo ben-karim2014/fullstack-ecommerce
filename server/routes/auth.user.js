@@ -53,12 +53,12 @@ router.post('/register',
                   _id:savedUser._id
                }
                const token = jwt.sign(payload,process.env.TOKEN_KEY, {expiresIn :process.env.JWT_EXPIRE})
-               const secure = process.env.NODE_ENV.trim() === 'production' ? true : false 
-            const options = {
-               exprires: new Date(Date.now()+process.env.COOKIE_EXPIR *24 *60*60*1000),
-               httpOnly : true,
-               secure
-            }
+            //    const secure = process.env.NODE_ENV.trim() === 'production' ? true : false 
+            // const options = {
+            //    exprires: new Date(Date.now()+process.env.COOKIE_EXPIR *24 *60*60*1000),
+            //    httpOnly : true,
+            //    secure
+            // }
             try{
                res.status(200)
                   .send({user_created: "success", token})
@@ -87,11 +87,11 @@ router.post('/login', async (req, res) => {
 
    //Check if the email exist in the database
    const loggedUser = await User.findOne({email: req.body.email});
-   if(!loggedUser){return res.status(400).send('Email or password is incorrect');}
+   if(!loggedUser){return res.status(400).send('Email or password is incorrect E');}
 
    //If the email exist then Check if its password matches the one provided in the form
    const passValidate = await bycript.compare(req.body.password, loggedUser.password);
-   if(!passValidate){return res.status(400).send('Email or password is incorrect');}
+   if(!passValidate){return res.status(400).send('Email or password is incorrect P');}
 
    //creating payload
    const payload ={
@@ -101,18 +101,18 @@ router.post('/login', async (req, res) => {
    const token = jwt.sign(payload,process.env.TOKEN_KEY, {expiresIn :process.env.JWT_EXPIRE})
    //res.header('Authautication-Key', token).send(token)
    //set up options for the cookie 
-   const options ={
-      expires: new Date(Date.now+ process.env.COOKIE_EXPIRE *24*60*60*1000),
-      httpOnly: true
-   }
-   if(process.env.NODE_ENV === 'production'){
-      options.session =true;
-   }
+   // const options ={
+   //    expires: new Date(Date.now+ process.env.COOKIE_EXPIRE *24*60*60*1000),
+   //    httpOnly: true
+   // }
+   // if(process.env.NODE_ENV === 'production'){
+   //    options.session =true;
+   // }
    try{
       res
       .status(200)
       .json({
-         user_created: "success", 
+         user_loggedIn: "success", 
          token
       })
    }

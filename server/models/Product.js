@@ -13,10 +13,15 @@ Mongoose.plugin(slug, options);
 // Product Schema
 const ProductSchema = new Schema({
   sku: {
-    type: String
+    type: String,
+    required: true,
+    unique: true
+
   },
   name: {
     type: String,
+    required:true,
+    unique: true,
     trim: true
   },
   slug: { type: String, slug: 'name', unique: true },
@@ -28,17 +33,22 @@ const ProductSchema = new Schema({
     type: String,
     trim: true
   },
+  category:{
+    type: Schema.Types.ObjectId,
+      ref: 'Category',
+      required: true
+  },
   quantity: {
     type: Number
   },
-  IsInStock:{
+  isInStock:{
     type: Boolean,
     default: false
   },
   price: {
     type: Number
   },
-  Istaxed: {
+  isTaxed: {
     type: Boolean,
     default: false
   },

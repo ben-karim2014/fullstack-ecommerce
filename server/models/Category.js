@@ -15,7 +15,8 @@ const CategorySchema = mongoose.Schema({
   title: {
     type: String,
     trim: true,
-    required: true
+    required: true,
+    unique:true
   },
   slug: { type: String, slug: 'title', unique: true },
   description: {
