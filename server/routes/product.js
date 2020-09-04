@@ -45,38 +45,38 @@ router.post('/add', checkAuth, checkRole(1), (req, res)=>{
   }
 
   if (isTaxed == undefined) {
-    return res.status(400).json({ error: 'verify is product is taxable is required' });
+    return res.status(400).json({ error: 'Verifing that the product is taxable is required' });
   }
   if (isInStock == undefined) {
-    return res.status(400).json({ error: 'iInstock is required' });
+    return res.status(400).json({ error: 'Verifing that the product is in stock is required' });
   }
-  var existingCategory = undefined;
+  var existedCategory = undefined;
 
-  Product.findOne({ sku }, (err, existingProduct) => {
+  Product.findOne({ sku }, (err, existedProduct) => {
     if (err) {
       return res.status(400).json({
         error: 'Your request could not be processed. Please try again.'
       });
     }
-    if(existingProduct){
+    if(existedProduct){
         return res.status(400).json({ error: 'This sku is already used by another product.' });
     }
 
 })
 
-Category.findOne({title : category}, (err, existingCategory)=>{
+Category.findOne({title : category}, (err, existedCategory)=>{
     if(err){
       return res.status(400).json({
           error: 'Unable to process your request. Please try again.'
         });
     }
-    if(!existingCategory){
+    if(!existedCategory){
       return res.status(400).json({
           error: 'category should be an existing category.'
         });
     }
 
-    const catId = existingCategory._id;
+    const catId = existedCategory._id;
     const product = new Product({
         sku,
         name,
@@ -91,20 +91,60 @@ Category.findOne({title : category}, (err, existingCategory)=>{
     product.save((err, data) => {
         if (err) {
           return res.status(400).json({
-            message: 'Your request could not be processed. Please try again.',
+            message: 'Unable to process your request. Please try again.',
             error: err
           });
         }
     
         res.status(200).json({
           success: true,
-          message: `Product has been added successfully!`,
+          message: 'Product has been added successfully!',
           product: data
         });
       });
 
 })
-
-
 })
+//fetch a product using the slug. 
+//for now we will just all send all the properties of the product. This may change!
+
+router.get('/:slugRef', (req, res) => {
+    const slugID = req.params.slugRef;
+    Product.findOne({ slug: slugID },(err, data) => {
+        if (err) {
+          return res.status(400).json({
+            error: 'Your request could not be processed. Please try again.'
+          });
+        }
+        if (!data) {
+          return res.status(404).json({
+            message: 'No product found.'
+          });
+        }
+        res.status(200).json({
+          product: data
+        });
+      })
+  });
+
+// fetch all the products 
+//for now we will just all send all the properties of the product. This may change!
+
+router.get('/list/all', (req, res) => {
+    Product.find({},(err, data) => {
+        if (err) {
+          return res.status(400).json({
+            error: 'Unable to process your request. Please try again.'
+          });
+        }
+        res.status(200).json({
+          products: data
+        });
+      });
+  });
+
+  // fetch all the products by category
+//for now we will just all send all the properties of the product. This may change!
+
+
 module.exports=router

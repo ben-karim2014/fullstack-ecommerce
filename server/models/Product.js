@@ -1,6 +1,6 @@
-const Mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const slug = require('mongoose-slug-generator');
-const { Schema } = Mongoose;
+
 
 const options = {
   separator: '-',
@@ -8,10 +8,10 @@ const options = {
   truncate: 120
 };
 
-Mongoose.plugin(slug, options);
+mongoose.plugin(slug, options);
 
 // Product Schema
-const ProductSchema = new Schema({
+const ProductSchema = mongoose.Schema({
   sku: {
     type: String,
     required: true,
@@ -34,7 +34,7 @@ const ProductSchema = new Schema({
     trim: true
   },
   category:{
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',
       required: true
   },
@@ -53,7 +53,7 @@ const ProductSchema = new Schema({
     default: false
   },
   category: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Category'
   },
   updated: Date,
@@ -63,4 +63,4 @@ const ProductSchema = new Schema({
   }
 });
 
-module.exports = Mongoose.model('Product', ProductSchema);
+module.exports = mongoose.model('Product', ProductSchema);
