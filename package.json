@@ -4,7 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "client-install": "npm install --prefix client",
+    "server-install" :"npm install --prefix server",
+    "server-start": "npm start --prefix server",
+    "server-dev": "npm run dev --prefix server",
+    "client-start": "npm start --prefix client",
+    "build-client": "npm build --prefix client",
+    "dev": "concurrently \"npm run server-dev\" \"npm run client-start\"",
+    "start": "concurrently \"npm run server-start\" \"npm run client-start\""
+    
   },
   "repository": {
     "type": "git",
@@ -16,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/ben-karim2014/fullstack-ecommerce/issues"
   },
-  "homepage": "https://github.com/ben-karim2014/fullstack-ecommerce#readme"
+  "homepage": "https://github.com/ben-karim2014/fullstack-ecommerce#readme",
+  "dependencies": {
+    "concurrently": "^5.3.0"
+  }
 }
