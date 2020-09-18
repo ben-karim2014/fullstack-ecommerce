@@ -20,7 +20,7 @@ const loginValidation = (data) =>{
         
         email: joi.string().min(8).max(254).lowercase().trim().required().email(),
         password: joi.string().min(8).trim().required(),
-       
+       // _csrf : joi.string()      
     });
     return validationSchema.validate(data, {abortEarly:false})
 }

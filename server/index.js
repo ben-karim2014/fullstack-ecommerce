@@ -47,6 +47,7 @@ require('dotenv').config({path: './config/cfg.env'})
 const user_route = require('./routes/auth.user')
 const categoryRoute = require('./routes/category')
 const productRoute = require('./routes/product')
+var csrf = require('csurf');
 
 
 
@@ -57,6 +58,7 @@ const PORT =process.env.PORT || 3000;
 
 
 //middlewares bodyparser
+var csrfProtection = csrf({ cookie: true })
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
@@ -67,7 +69,8 @@ app.use(cookieParser())
 //Routes
 
 //up level route
-app.get('/', (re,res)=>{
+app.get('/', csrfProtection,(req,res)=>{
+    res.cookie('_csrf', req.csrfToken());
     res.send('This is the main page');
 })
 

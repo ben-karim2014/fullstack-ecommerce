@@ -4,6 +4,8 @@ const bycript = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {registerValidation, loginValidation} = require('./validationForm')
 
+
+
 const User = require('../models/User')
 
 /** @User authorization && routing login and register 
@@ -17,11 +19,13 @@ const User = require('../models/User')
  *      @encrypt password
  *      @save user 
  *      @create user payload and assign token jwt
+ *       .cookie('XSRF-TOKEN', req.csrfToken())
+
  *      
  */
 
  //Register route
-router.post('/register',
+router.post('/register', 
  async (req,res)=>{
    
    // Validating the data based on the schema in the validationForm
@@ -53,15 +57,19 @@ router.post('/register',
                   _id:savedUser._id
                }
                const token = jwt.sign(payload,process.env.TOKEN_KEY, {expiresIn :process.env.JWT_EXPIRE})
-            //    const secure = process.env.NODE_ENV.trim() === 'production' ? true : false 
-            // const options = {
-            //    exprires: new Date(Date.now()+process.env.COOKIE_EXPIR *24 *60*60*1000),
-            //    httpOnly : true,
-            //    secure
-            // }
+               const secure = process.env.NODE_ENV.trim() === 'production' ? true : false 
+             const options = {
+                exprires: new Date(Date.now()+process.env.COOKIE_EXPIR *24 *60*60*1000),
+               httpOnly : true,
+                secure:secure
+             }
             try{
                res.status(200)
-                  .send({user_created: "success", token})
+               .cookie('token',token, options)
+               .json({
+                  user_loggedIn: "success", 
+                  token
+               })
             }
             catch(err){
                console.log(err)
@@ -79,7 +87,7 @@ router.post('/register',
 })
 
 //Login route
-router.post('/login', async (req, res) => {
+router.post('/login',  async (req, res) => {
    
    // Validating the data based on the schema in the validationForm
    const errors = loginValidation(req.body);
@@ -101,16 +109,20 @@ router.post('/login', async (req, res) => {
    const token = jwt.sign(payload,process.env.TOKEN_KEY, {expiresIn :process.env.JWT_EXPIRE})
    //res.header('Authautication-Key', token).send(token)
    //set up options for the cookie 
-   // const options ={
-   //    expires: new Date(Date.now+ process.env.COOKIE_EXPIRE *24*60*60*1000),
-   //    httpOnly: true
-   // }
+   const secure = process.env.NODE_ENV.trim() === 'production' ? true : false 
+
+   const options ={
+       expires: new Date(Date.now+ process.env.COOKIE_EXPIRE *24*60*60*1000),
+       httpOnly: true,
+       secure: secure
+    }
    // if(process.env.NODE_ENV === 'production'){
    //    options.session =true;
    // }
    try{
       res
       .status(200)
+      .cookie('token',token, options)
       .json({
          user_loggedIn: "success", 
          token
