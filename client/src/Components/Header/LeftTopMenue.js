@@ -7,7 +7,7 @@ const Example = (props) => {
 
   return (
     <div>
-      
+      <h1>logo Menu</h1>
     </div>
   );
 }

@@ -4,16 +4,17 @@ const auth = (req,res, next)=>{
 const cookieToken = req.cookies.token
 const csrf = req.body._csrf
 
-console.log(csrf)
-console.log(req.cookies._csrf)
+//console.log(csrf)
+console.log(`This the cookie token : ${cookieToken}`)
+console.log(req.cookies)
 
 
 if (!cookieToken){
-    return res.status(401).send("Access Denied");
+    return res.status(401).json({ msg: 'No token, authorization denied' });
 
 }
 if(csrf != req.cookies._csrf){
-    return  res.status(400).send('No Access! Different Tokens ');
+    return  res.status(400).json({ msg: 'Incorrect token' });
 
 }
 if(csrf === req.cookies._csrf){
@@ -26,7 +27,7 @@ if(csrf === req.cookies._csrf){
             next();
         }
         catch(err){
-           return  res.status(400).send('No Access! Invalid Token ');
+           return  res.status(400).json({ msg: 'Invalid token' });
         }  
 }
 

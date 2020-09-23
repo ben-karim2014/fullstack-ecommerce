@@ -5,7 +5,7 @@ import RightMenue from './LeftTopMenue'
 const TopHeader = (props) => {
   
   return (
-        <div className='rowC'  wfd-id="617">
+        <div>
         <TopMenue />
         <RightMenue />
         <hr></hr>
