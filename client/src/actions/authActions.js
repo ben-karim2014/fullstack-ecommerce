@@ -95,3 +95,29 @@ export const logout = () => dispatch=> {
         })
     })
 }
+
+//Logi user
+export const login = ({firstName, lastName, email, password, address})=> dispatch=>{
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+            
+        },
+        withCredentials: true 
+
+    }
+    const body = JSON.stringify({email, password})
+    axios.post('/api/v1/users/login',body, config)
+    .then(res=> dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data
+    }))
+    .catch(err=> {
+        dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'));
+        dispatch({
+            
+            type:LOGIN_FAIL
+        })
+    })
+}

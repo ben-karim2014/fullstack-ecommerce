@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { faUserAlt, faLock} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import TopHeader from '../Components/Header/TopHedaer'
-import {register} from '../actions/authActions'
+import {login} from '../actions/authActions'
 import {clearErrors} from '../actions/errorActions'
 import {
     Button,
@@ -39,14 +39,14 @@ class Login extends Component{
     static propTypes = {
         isAthenticated : PropTypes.bool,
         error : PropTypes.object.isRequired,
-        register: PropTypes.func.isRequired,
+        login: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     }
     componentDidUpdate(prevProps){
         const {error} = this.props;
         
         if(error !== prevProps.error){
-            if(error.id=== 'REGISTER_FAIL'){
+            if(error.id=== 'LOGIN_FAIL'){
                 this.setState({msg: error.msg})
 
             }
@@ -59,18 +59,17 @@ class Login extends Component{
     onSubmit = e =>{
         this.props.clearErrors();
         e.preventDefault();
-        const {firstName, lastName, email, password, address} = this.state;
+        const {email, password} = this.state;
         //Create User Object
         const newUser =
         {
-            firstName,
-            lastName,
+           
             email,
             password,
-            address,
+          
         }
         //Attempt to register
-        this.props.register(newUser);
+        this.props.login(newUser);
         console.log(`The message is : ${this.state.msg}`);
 
     }
@@ -100,7 +99,7 @@ class Login extends Component{
                         <FontAwesomeIcon icon={faUserAlt} />
                         </span>
                       </div>
-                      <Input type="text" placeholder="Email"/>
+                      <Input type="text" name='email' id='email' placeholder="Email" onChange={this.changeValue}/>
                     </InputGroup>
                     <InputGroup className="mb-4">
                       <div className="input-group-prepend">
@@ -108,7 +107,7 @@ class Login extends Component{
                         <FontAwesomeIcon icon={faLock} />
                         </span>
                       </div>
-                      <Input type="password" placeholder="Password"/>
+                      <Input type="password" name='password' id='password' placeholder="Password" onChange={this.changeValue}/>
                     </InputGroup>
                     <Row>
                       <Col xs="12" lg="6">
@@ -154,5 +153,5 @@ const mapStateToProps = state =>({
 })
 export default connect (
     mapStateToProps,
-    {register, clearErrors}
+    {login, clearErrors}
 )(Login);

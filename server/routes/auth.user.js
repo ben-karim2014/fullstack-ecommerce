@@ -56,7 +56,11 @@ router.post('/register',
               const savedUser = await newuser.save();
 
                const payload ={
-                  _id:savedUser._id
+                  id:savedUser._id,
+                  email: savedUser.email,
+                  firstName: savedUser.firstName,
+                  lastName: savedUser.lastName,
+                  address: savedUser.address
                }
                req.session.userId = savedUser._id;
             //    const token = jwt.sign(payload,process.env.TOKEN_KEY, {expiresIn :process.env.JWT_EXPIRE})
@@ -75,7 +79,8 @@ router.post('/register',
                res.status(200)
                // .cookie('token',token, options)
                .json({
-                  isAuthenticated: true, 
+                  isAuthenticated: true,
+                  user: payload
                })
             }
             catch(err){
@@ -108,31 +113,39 @@ router.post('/login',  async (req, res) => {
    const passValidate = await bycript.compare(req.body.password, loggedUser.password);
    if(!passValidate){return res.status(400).send('Email or password is incorrect P');}
 
-   //creating payload
+   req.session.userId = loggedUser._id;
    const payload ={
-      _id: loggedUser._id
+      id:loggedUser._id,
+      email: loggedUser.email,
+      firstName: loggedUser.firstName,
+      lastName: loggedUser.lastName,
+      address: loggedUser.address
    }
+   //creating payload
+   // const payload ={
+   //    _id: loggedUser._id
+   // }
    //create token and assign it to the logged in user
-   const token = jwt.sign(payload,process.env.TOKEN_KEY, {expiresIn :process.env.JWT_EXPIRE})
+  // const token = jwt.sign(payload,process.env.TOKEN_KEY, {expiresIn :process.env.JWT_EXPIRE})
    //res.header('Authautication-Key', token).send(token)
    //set up options for the cookie 
-   const secure = process.env.NODE_ENV.trim() === 'production' ? true : false 
+   //const secure = process.env.NODE_ENV.trim() === 'production' ? true : false 
 
-   const options ={
-       expires: 0,
-       httpOnly: true,
-       secure: secure
-    }
+   // const options ={
+   //     expires: 0,
+   //     httpOnly: true,
+   //     secure: secure
+   //  }
    // if(process.env.NODE_ENV === 'production'){
    //    options.session =true;
    // }
    try{
       res
       .status(200)
-      .cookie('token',token, options)
+      //.cookie('token',token, options)
       .json({
-         user_loggedIn: "success", 
-         token
+         isAuthenticated: true,
+         user: payload
       })
    }
    catch(err){
