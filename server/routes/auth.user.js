@@ -4,9 +4,9 @@ const bycript = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {registerValidation, loginValidation} = require('./validationForm')
 const checkAuth = require('../middlewares/AuthChecker')
+var cors = require('cors')
 
-
-
+router.use(cors()); 
 
 const User = require('../models/User')
 
@@ -58,19 +58,24 @@ router.post('/register',
                const payload ={
                   _id:savedUser._id
                }
-               const token = jwt.sign(payload,process.env.TOKEN_KEY, {expiresIn :process.env.JWT_EXPIRE})
-               const secure = process.env.NODE_ENV.trim() === 'production' ? true : false 
-             const options = {
-                exprires: new Date(Date.now()+process.env.COOKIE_EXPIR *24 *60*60*1000),
-               httpOnly : true,
-                secure:secure
-             }
+               req.session.userId = savedUser._id;
+            //    const token = jwt.sign(payload,process.env.TOKEN_KEY, {expiresIn :process.env.JWT_EXPIRE})
+            //    const secure = process.env.NODE_ENV.trim() === 'production' ? true : false 
+            //    const options = {
+            //     // exprires: 0,
+            //     httpOnly : true,
+            //      secure:secure,
+            //      sameSite:true
+            //   }
             try{
+               res.set('Access-Control-Allow-Origin', 'http://localhost:3000')
+               res.set('Access-Control-Allow-Methods', 'GET, OPTIONS')
+               res.set('Access-Control-Allow-Headers', 'Content-Type')
+               res.set('Access-Control-Allow-Credentials', 'true')
                res.status(200)
-               .cookie('token',token, options)
+               // .cookie('token',token, options)
                .json({
                   isAuthenticated: true, 
-                  token
                })
             }
             catch(err){
@@ -114,7 +119,7 @@ router.post('/login',  async (req, res) => {
    const secure = process.env.NODE_ENV.trim() === 'production' ? true : false 
 
    const options ={
-       expires: new Date(Date.now+ process.env.COOKIE_EXPIRE *24*60*60*1000),
+       expires: 0,
        httpOnly: true,
        secure: secure
     }
@@ -140,13 +145,38 @@ router.post('/login',  async (req, res) => {
  * @access  Private
  */
 
-router.get('/user', checkAuth, async (req, res) => {
+router.get('/user',async (req, res) => {
    try {
-     const user = await User.findById(req.user._id).select('-password');
+      if(!req.session.userId){throw Error('User does not exist');}
+     const user = await User.findById(req.session.userId).select('-password');
      if (!user) throw Error('User does not exist');
      res.json(user);
+   console.log(res.headersSent)
+   console.log(res.headers)
+   } catch (e) {
+     res.status(400).json({ msg: e.message });
+   }
+ });
+
+ 
+router.delete('/logout', async ({session}, res) => {
+   try {
+     const userID = session.userId;
+     console.log(userID)
+     if (userID) {
+      session.destroy(err => {
+        if (err) throw (err);
+        res.clearCookie(process.env.SESSION_NAME);
+        res.send(userID);
+      });
+    } else {
+      throw new Error('Something went wrong');
+    }
+      
    } catch (e) {
      res.status(400).json({ msg: e.message });
    }
  });
  module.exports=router
+
+ 

@@ -1,12 +1,13 @@
+const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const auth = (req,res, next)=>{
 // const token = req.header('token-auth');
-const cookieToken = req.cookies.token
+const cookieToken = req.cookies.sid
 const csrf = req.body._csrf
 
 //console.log(csrf)
-console.log(`This the cookie token : ${cookieToken}`)
-console.log(req.cookies)
+// console.log(`This the cookie token : ${cookieToken}`)
+// console.log(req.cookies)
 
 
 if (!cookieToken){

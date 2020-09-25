@@ -1,5 +1,9 @@
 import axios from 'axios'
+import Cookies from 'universal-cookie';
+
+
 import {returnErrors} from './errorActions'
+
 import {
     USER_LOADED,
     USER_LOADING,
@@ -11,13 +15,27 @@ import {
     REGISTER_FAIL
 } from '../actions/types'
 
-
+axios.defaults.baseURL = "http://localhost:5000"
+const cookies = new Cookies();
+//loading user Action
 export const loadUser = () => (dispatch, getState) =>{
     dispatch({type: USER_LOADING});
 
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
+            'Access-Control-Allow-Methods': 'GET, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Credentials': 'true'
+            
+        },
+        withCredentials: true 
 
-    axios.get('http://localhost:5000/api/v1/users/user')
+    }
+    axios.get('/api/v1/users/user', config)
     .then(res => dispatch({
+       
         type:USER_LOADED,
         payload: res.data
     }))
@@ -29,16 +47,19 @@ export const loadUser = () => (dispatch, getState) =>{
     })
     // Register User
 }
+//Register user
 export const register = ({firstName, lastName, email, password, address})=> dispatch=>{
 
     const config = {
         headers: {
             'Content-Type': 'application/json'
-        }
+            
+        },
+        withCredentials: true 
 
     }
     const body = JSON.stringify({firstName, lastName, email, password, address})
-    axios.post('http://localhost:5000/api/v1/users/register',body, config)
+    axios.post('/api/v1/users/register',body, config)
     .then(res=> dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
@@ -48,6 +69,29 @@ export const register = ({firstName, lastName, email, password, address})=> disp
         dispatch({
             
             type:REGISTER_FAIL
+        })
+    })
+}
+//logout user
+export const logout = () => dispatch=> {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+            
+        },
+        withCredentials: true 
+
+    }
+    axios.delete('/api/v1/users/logout', config)
+    .then((res) => dispatch({
+        
+        type: LOGOUT_SUCCESS,
+        //payload: res.data
+    }))
+    .catch(err => {
+        dispatch(returnErrors(err.response.data, err.response.status));
+        dispatch({
+            type: AUTH_ERROR
         })
     })
 }

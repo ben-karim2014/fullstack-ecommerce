@@ -1,6 +1,8 @@
 import React from 'react';
 import { faUserAlt, faShoppingCart,faMapMarkerAlt} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Logout from '../Logout'
+
 
 import {
   Collapse,
@@ -29,7 +31,9 @@ const Example = (props) => {
     <Container className="hidden-xs">
     <NavLink >OUR PHONE NUMBER: +1 (310) 947- 0648</NavLink>
     <Nav className="ml-auto"  navbar>
-    <NavItem><NavLink href="/Account/"><FontAwesomeIcon icon={faUserAlt} /> My Account</NavLink> </NavItem>
+    <NavItem><NavLink href="/register/"><FontAwesomeIcon icon={faUserAlt} /> Signup</NavLink> </NavItem>
+    <NavItem><NavLink href="/login/"><FontAwesomeIcon icon={faUserAlt} /> Signin</NavLink> </NavItem>
+    <NavItem><Logout /> </NavItem>
     <NavItem><NavLink href="/components/"><FontAwesomeIcon icon={faShoppingCart} /> Cart</NavLink> </NavItem>
     <NavItem><NavLink href="/components/"><FontAwesomeIcon icon={faMapMarkerAlt} /> Our location</NavLink></NavItem>
     <NavItem><NavLink href="/components/">Contact us</NavLink> </NavItem>

@@ -5,44 +5,51 @@ const bodyParser =require('body-parser')
 const cookieParser = require('cookie-parser')
 const app = express()
 const connectMongo = require('./config/DbConnect')
-// const session = require('express-session')
-// const connectRedis= require('connect-redis')
+const session = require('express-session')
+var MongoDBStore = require('connect-mongodb-session')(session);
 // const Redis = require('ioredis')
 require('dotenv').config({path: './config/cfg.env'})
 
-// const RedisStore = new connectRedis(session)
+var store = new MongoDBStore(
+    {
+        
+        uri: process.env.MONGO_URI,
+        collection: 'mySessions',
+       
+        expires: 1000 * 60 * 60 * 2, 
+        clear_interval: 3600,
+        connectionOptions: {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+          serverSelectionTimeoutMS: 10000
+        }
+    },
+    // function(error) {
+    //   // Should have gotten an error
+    //   console.log("Unable to connect to session store database")
+    // }
+    );
 
-// const redisOptions = {
-//     port:process.env.REDIS_PORT,
-//     host: process.env.REDIS_HOST
-// };
+    store.on('error', function(error) {
+        console.log(error);
+      });
 
+    const SessionSecureMode = process.env.NODE_ENV.trim() === 'production' ? true : false
+      app.use(session({
+        name: process.env.SESSION_NAME,
+        resave: false,
+        secret: process.env.TOKEN_KEY,
+        cookie: {
+          maxAge: 1000 * 60 * 60 * 2,
+          sameSite: true,
+          httpOnly: true,
+          secure: SessionSecureMode
+        },
+        rolling:true,
+        store: store,
+        saveUninitialized: false
+      }));
 
-// const client = new Redis(redisOptions)
-
-// const HALF_HOUR = process.env.COOKIE_IDLE_TIMEOUT * 60*30
-// const SessionSecureMode = process.env.NODE_ENV.trim() === 'production' ? true : false
-//console.log(SessionSecureMode)
-
-//setting up sessions
-// app.use(session({
-//     //store: new RedisStore({client}),
-//     secret: process.env.SESSION_SECRET,
-//     resave : false,
-//     saveUninitialized: false,
-//     name:process.env.SESSION_NAME,
-//     rolling: true,
-//     cookie:{
-//         maxAge: HALF_HOUR,
-//         httpOnly: true,
-//         secure: SessionSecureMode,
-//         sameSite: true
-//     }
-
-
-// }))
-
-    
 
 const user_route = require('./routes/auth.user')
 const categoryRoute = require('./routes/category')
@@ -61,7 +68,7 @@ const PORT =process.env.PORT || 3000;
 var csrfProtection = csrf({ cookie: true })
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(cors());
+//app.use(cors());
 app.use(cookieParser())
 
 
@@ -74,6 +81,13 @@ app.get('/', csrfProtection,(req,res)=>{
     res.send('This is the main page');
 })
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); 
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+  });
+  
 //user routes 
 app.use('/api/v1/users',user_route);
 //category routes

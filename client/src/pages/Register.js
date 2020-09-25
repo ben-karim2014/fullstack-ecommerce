@@ -28,7 +28,7 @@ class Regitser extends Component{
         
     }
     static propTypes = {
-        isAthenticated : PropTypes.bool,
+        isAuthenticated : PropTypes.bool,
         error : PropTypes.object.isRequired,
         register: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
@@ -74,10 +74,11 @@ class Regitser extends Component{
         return (
             <div>
             <TopHeader />
+            <div style={{marginLeft: "10"}}><h1>Register</h1></div>
             
             {this.state.msg ? (<Alert color="danger">{this.state.msg}</Alert>) : null}
             <Form className="ml-4" onSubmit={this.onSubmit}>
-            <Row className="ml-2 mr-2" form>
+            <Row className="ml-3 mr-3" form>
                 <Col md={6}>
                 <FormGroup>
                 <Label for="firstName">Your first name</Label>
@@ -91,7 +92,7 @@ class Regitser extends Component{
               </FormGroup>
                 </Col>
               </Row>
-              <Row className="ml-2 mr-2" form>
+              <Row className="ml-3 mr-3" form>
                 <Col md={6}>
                   <FormGroup>
                     <Label for="email">Email</Label>
@@ -105,11 +106,11 @@ class Regitser extends Component{
                   </FormGroup>
                 </Col>
               </Row>
-              <FormGroup className="ml-2 mr-2">
+              <FormGroup className="ml-3 mr-3">
                 <Label for="address">Address</Label>
                 <Input type="text" name="address" id="address" placeholder="1234 Main St" onChange={this.changeValue}/>
               </FormGroup>
-              <Button>Sign in</Button>
+              <Button className="ml-3 mr-3">Sign in</Button>
             </Form>
             </div>
           );
@@ -117,7 +118,7 @@ class Regitser extends Component{
 
 }
 const mapStateToProps = state =>({
-    isAthenticated : state.auth.isAthenticated,
+    isAuthenticated : state.auth.isAuthenticated,
     error: state.error
 })
 export default connect (

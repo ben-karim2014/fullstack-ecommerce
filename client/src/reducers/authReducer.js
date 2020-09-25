@@ -10,7 +10,7 @@ import {
 } from '../actions/types'
 
 const initialState = {
-    isAuthenticated: false,
+    isAuthenticated : false,
     isloading: false,
     user:null
 }
@@ -25,16 +25,18 @@ export default function(state=initialState, action){
             };
         case USER_LOADED:
             return{
+               
                 ...state,
-                isAthenticated: true,
+                isAuthenticated: true,
                 isloading: false,
                 user: action.payload
+                
             }
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
             return {
                 ...state,
-                isAthenticated: true,
+                isAuthenticated: true,
                 isloading: false,
                 user: action.payload
             }
@@ -45,7 +47,7 @@ export default function(state=initialState, action){
             return{
                 ...state,
                 user: null,
-                isAthenticated: false,
+                isAuthenticated: false,
                 isloading: false
             }
         default:
