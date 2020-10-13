@@ -16,7 +16,9 @@ import {
 } from '../actions/types'
 
 axios.defaults.baseURL = "http://localhost:5000"
-const cookies = new Cookies();
+
+
+
 //loading user Action
 export const loadUser = () => (dispatch, getState) =>{
     dispatch({type: USER_LOADING});
@@ -34,11 +36,11 @@ export const loadUser = () => (dispatch, getState) =>{
 
     }
     axios.get('/api/v1/users/user', config)
-    .then(res => dispatch({
+    .then(res => {if(res) {dispatch({
        
         type:USER_LOADED,
         payload: res.data
-    }))
+    })}})
     .catch(err => {
         dispatch(returnErrors(err.response.data, err.response.status));
         dispatch({
@@ -60,10 +62,13 @@ export const register = ({firstName, lastName, email, password, address})=> disp
     }
     const body = JSON.stringify({firstName, lastName, email, password, address})
     axios.post('/api/v1/users/register',body, config)
-    .then(res=> dispatch({
+    .then(res=> {dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
-    }))
+    })
+    //window.location.replace = 'http://localhost:3000/';
+    //window.location.reload(true);
+    })
     .catch(err=> {
         dispatch(returnErrors(err.response.data, err.response.status, 'REGISTER_FAIL'));
         dispatch({
@@ -97,7 +102,7 @@ export const logout = () => dispatch=> {
 }
 
 //Logi user
-export const login = ({firstName, lastName, email, password, address})=> dispatch=>{
+export const login = ({email, password})=> dispatch=>{
 
     const config = {
         headers: {
@@ -107,12 +112,17 @@ export const login = ({firstName, lastName, email, password, address})=> dispatc
         withCredentials: true 
 
     }
+
+    
     const body = JSON.stringify({email, password})
     axios.post('/api/v1/users/login',body, config)
-    .then(res=> dispatch({
+    .then(res=> {dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
-    }))
+    })
+   // window.location.reload(true);
+
+    })
     .catch(err=> {
         dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'));
         dispatch({

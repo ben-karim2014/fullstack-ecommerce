@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import TopHeader from '../Components/Header/TopHedaer'
+import React, {Component, Fragment} from 'react';
+import TopHeader from '.././Components/Header/TopHedaer'
 import {register} from '../actions/authActions'
 import {clearErrors} from '../actions/errorActions'
 import {
@@ -10,7 +10,7 @@ import {
     Input,
     Row,
     Col,
-    Alert
+    Alert,
 
 } from 'reactstrap'
 
@@ -72,11 +72,14 @@ class Regitser extends Component{
     }
     render(){
         return (
-            <div>
+            <div cladssName="Container">
             <TopHeader />
-            <div style={{marginLeft: "10"}}><h1>Register</h1></div>
+            <Row>
+            <Col>
+            <div style={{marginLeft: "10"}}><h1>Create an account</h1></div>
             
             {this.state.msg ? (<Alert color="danger">{this.state.msg}</Alert>) : null}
+
             <Form className="ml-4" onSubmit={this.onSubmit}>
             <Row className="ml-3 mr-3" form>
                 <Col md={6}>
@@ -112,6 +115,11 @@ class Regitser extends Component{
               </FormGroup>
               <Button className="ml-3 mr-3">Sign in</Button>
             </Form>
+
+            </Col>
+            
+            </Row>
+            
             </div>
           );
     }

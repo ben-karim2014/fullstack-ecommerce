@@ -43,6 +43,9 @@ router.post('/register',
    const hashedPassword = await bycript.hash(req.body.password,salt);
 
 
+
+
+
    //Creating the User object
             const newuser = new User({
                firstName: req.body.firstName,
@@ -78,13 +81,10 @@ router.post('/register',
                res.set('Access-Control-Allow-Credentials', 'true')
                res.status(200)
                // .cookie('token',token, options)
-               .json({
-                  isAuthenticated: true,
-                  user: payload
-               })
+               .send(payload)
             }
             catch(err){
-               console.log(err)
+               res.status(400).json({ msg: e.message });
             }
                
                   
@@ -140,16 +140,18 @@ router.post('/login',  async (req, res) => {
    //    options.session =true;
    // }
    try{
+      res.set('Access-Control-Allow-Origin', 'http://localhost:3000')
+               res.set('Access-Control-Allow-Methods', 'GET, OPTIONS')
+               res.set('Access-Control-Allow-Headers', 'Content-Type')
+               res.set('Access-Control-Allow-Credentials', 'true')
       res
       .status(200)
       //.cookie('token',token, options)
-      .json({
-         isAuthenticated: true,
-         user: payload
-      })
+      .send(payload)
    }
    catch(err){
-      console.log(err)   }
+      res.status(400).json({ msg: e.message });
+   }
 });
 
 /**
@@ -160,7 +162,7 @@ router.post('/login',  async (req, res) => {
 
 router.get('/user',async (req, res) => {
    try {
-      if(!req.session.userId){throw Error('User does not exist');}
+      if(!req.session.userId){throw Error('User is not authenticated');}
      const user = await User.findById(req.session.userId).select('-password');
      if (!user) throw Error('User does not exist');
      res.json(user);

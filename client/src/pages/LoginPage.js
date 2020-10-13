@@ -68,9 +68,9 @@ class Login extends Component{
             password,
           
         }
-        //Attempt to register
+        //Attempt to login
         this.props.login(newUser);
-        console.log(`The message is : ${this.state.msg}`);
+       // console.log(`The message is : ${this.state.msg}`);
 
     }
     changeValue = (e) => {

@@ -22,3 +22,60 @@
     padding-left: 250px;
 }
 .rowC{display:flex; flex-direction:row; background-color:#F8F9FA;}
+.topMenue {
+    display: flex;
+    justify-content: flex-end;
+    height: 35p
+}
+.registerLayAout{
+ border-right: 1px  gray;
+ padding-left: 5px;
+ margin-left: 5px;
+}
+.customSwitches{
+    font-size: 10px;
+}
+.customSwitchesControl{
+    padding-left: 15px;
+    
+}
+.logo{
+    display: block;
+   max-width: auto;
+   height: 100px;
+
+}
+.LoginCard{
+    background-color:#f5f5f5 ;
+
+}
+.TopMenu{
+    background-color:black ;
+    color: white;
+    text-decoration-color: white;
+
+}
+.TopLink{
+    
+    color: white;
+    text-decoration-color: white;
+
+}
+.StoreLink{
+    
+    color:Black;
+    text-decoration-color: white;
+
+}
+.StoreLink:hover{
+    
+    cursor: pointer;
+    color: red;
+
+}
+.TopLink:hover{
+    cursor: pointer;
+    color: red;
+    
+
+}
