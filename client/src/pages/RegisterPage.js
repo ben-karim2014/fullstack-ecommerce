@@ -2,6 +2,10 @@ import React, {Component, Fragment} from 'react';
 import TopHeader from '.././Components/Header/TopHedaer'
 import {register} from '../actions/authActions'
 import {clearErrors} from '../actions/errorActions'
+import registerPng from "../images/register.png"
+import { faStar} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Footer from '../Components/footer'
 import {
     Button,
     Form,
@@ -11,6 +15,11 @@ import {
     Row,
     Col,
     Alert,
+    Card,
+    CardBody,
+    CardTitle,
+    InputGroup,
+    CardText
 
 } from 'reactstrap'
 
@@ -76,50 +85,71 @@ class Regitser extends Component{
             <TopHeader />
             <Row>
             <Col>
-            <div style={{marginLeft: "10"}}><h1>Create an account</h1></div>
+            <Card>
+            <CardBody className="LoginCard">
+            <div className="registerSpacing" > <h4> <FontAwesomeIcon icon={faStar} />Create an account</h4></div>
             
             {this.state.msg ? (<Alert color="danger">{this.state.msg}</Alert>) : null}
+            <Row>
+            <Col>
+          <div className="registerForm">
+            <Form className="rform" onSubmit={this.onSubmit} className="needs-validation" noValidate>
+            <Row>
+                <Col>
+                <FormGroup>
+                <Label for="firstName" >Your first name</Label>
+                <Input type="text" name="firstName" id="firstName" placeholder="Enter your first name" onChange={this.changeValue}/>
+              </FormGroup>
+                </Col>
+                </Row>
 
-            <Form className="ml-4" onSubmit={this.onSubmit}>
-            <Row className="ml-3 mr-3" form>
-                <Col md={6}>
+                <Row>
+                <Col>
                 <FormGroup>
-                <Label for="firstName">Your first name</Label>
-                <Input type="text" name="firstName" id="firstName" onChange={this.changeValue}/>
+                <Label for="lastName" >Your last name</Label>
+                <Input type="text" name="lastName" id="lastName" placeholder="Enter your last name" onChange={this.changeValue}/>
               </FormGroup>
                 </Col>
-                <Col md={6}>
-                <FormGroup>
-                <Label for="lastName">Your last name</Label>
-                <Input type="text" name="lastName" id="lastName" onChange={this.changeValue}/>
-              </FormGroup>
-                </Col>
-              </Row>
-              <Row className="ml-3 mr-3" form>
-                <Col md={6}>
+                </Row>
+              
+
+              <Row>
+                <Col >
                   <FormGroup>
                     <Label for="email">Email</Label>
-                    <Input type="email" name="email" id="email" placeholder="Enter your email" onChange={this.changeValue}/>
+                    <Input type="email" name="email" id="email"  placeholder="Enter your email" onChange={this.changeValue}/>
                   </FormGroup>
                 </Col>
-                <Col md={6}>
+                </Row>
+                <Row>
+                <Col>
                   <FormGroup>
                     <Label for="password">Password</Label>
-                    <Input type="password" name="password" id="password" placeholder="Enter your password" onChange={this.changeValue} />
+                    <Input type="password" name="password" id="password" className="form-control pwd"  onChange={this.changeValue} password/>
                   </FormGroup>
                 </Col>
               </Row>
-              <FormGroup className="ml-3 mr-3">
+              <FormGroup>
                 <Label for="address">Address</Label>
                 <Input type="text" name="address" id="address" placeholder="1234 Main St" onChange={this.changeValue}/>
               </FormGroup>
-              <Button className="ml-3 mr-3">Sign in</Button>
+              <Button outline color="danger" size = "lg w-100">Sign in</Button>
             </Form>
+            </div>
+            </Col>
 
+            <Col className="">
+           
+      <img className="registerPng" src={registerPng} alt=""/>
+            
+            </Col>
+            </Row>
+            </CardBody>
+            </Card>
             </Col>
             
             </Row>
-            
+            <Footer />
             </div>
           );
     }

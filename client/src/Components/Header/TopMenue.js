@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Logout from '../Logout'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-
+import { Link } from 'react-router-dom'
 
 import {
   Collapse,
@@ -32,13 +32,13 @@ class TopMenue extends React.Component{
             <div>
             <Container fluid>
             <Row className="TopMenu">
-                <Col lg="3" className="text-left">
+                <Col lg="4" className="text-left">
                 
-                <NavLink className="mt-2 text-center"> <FontAwesomeIcon icon={faPhone} rotation={90}/> OUR PHONE NUMBER: +1 (310) 947- 0648</NavLink>
+                <NavLink className="mt-2 text-center TopLink"> <FontAwesomeIcon icon={faPhone} rotation={90}/> OUR PHONE NUMBER: +1 (310) 947- 0648</NavLink>
                
                 </Col>
                
-                <Col lg='6'></Col>
+                <Col lg='5'></Col>
                 <Col lg="3" className="text-right">
                 <Navbar color="red" light expand="md">
                 <Nav className="text-right" >

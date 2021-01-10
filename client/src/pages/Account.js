@@ -11,6 +11,7 @@ import NotLogged from './NotLoggedPage'
 
 
 
+
 export class Account extends Component{ 
 
     static propTypes = {

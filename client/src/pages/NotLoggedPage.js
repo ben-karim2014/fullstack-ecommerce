@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import {login} from '../actions/authActions'
 import {clearErrors} from '../actions/errorActions'
 import TopMenue from '../Components/Header/TopMenue'
+import Footer from '../Components/footer'
 import {
     Button,
     Form,
@@ -22,6 +23,8 @@ import {
     CardText,
     InputGroup,
     CardLink,
+    NavLink
+    
     
 
 
@@ -99,7 +102,7 @@ class Login extends Component{
             {this.state.msg ? (<Alert color="danger">{this.state.msg}</Alert>) : null}
             
            <Container fluid> 
-           <Row>
+           <Row className="spacing">
            <Col size="6" lg="2" className="d-none d-lg-block"></Col>
            <Col size="6" lg="4">
            
@@ -109,7 +112,7 @@ class Login extends Component{
            <hr></hr>
            <CardText >Sign in with your account.</CardText>
            <Row>
-           <Col md={8}>
+           <Col md={12}>
            <InputGroup className="mb-4 ml-1">
              <div className="input-group-prepend">
                <span className="input-group-text">
@@ -124,20 +127,20 @@ class Login extends Component{
            </Col>
            </Row>
           <Row>
-           <Col md={8}>
+           <Col md={12}>
            <InputGroup className="mb-4 ml-1">
              <div className="input-group-prepend">
                <span className="input-group-text">
                <FontAwesomeIcon icon={faLock} />
                </span>
              </div>
-             <Input type="password"  name='password' id='password' className="form-control pwd" placeholder="Password" type={this.state.hidden1 ? 'password' : 'text'} onChange={this.changeValue}/> 
+             <Input type="password"  name='password' id='password' className="form-control" placeholder="Password" type={this.state.hidden1 ? 'password' : 'text'} onChange={this.changeValue}/> 
             
              </InputGroup>
              
            </Col>
            <span className="InputGroupBtn d-none d-md-block mr-auto">
-           <button className="btn btn-default reveal" type="button"  onClick={this.toggleShow }><i><FontAwesomeIcon icon={faEyeSlash} /></i></button>
+           {/*<button className="btn btn-default reveal" type="button"  onClick={this.toggleShow }><i><FontAwesomeIcon icon={faEyeSlash} /></i></button>*/}
          </span>
            </Row>
            <Row className="mb-2 w-75 p-3">
@@ -145,7 +148,7 @@ class Login extends Component{
                <Button color="danger" className="px-4">Login</Button>
              </Col>
              <Col className="text-right">
-               <Button color="link" className="px-0">Forgot password?</Button>
+               <Link  className="link">Forgot password?</Link>
              </Col>
            </Row>
           
@@ -181,6 +184,8 @@ class Login extends Component{
            </Row>
            
            </Container>
+           <hr></hr>
+           <Footer />
             </div>
           );
     }

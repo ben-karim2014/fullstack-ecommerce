@@ -79,3 +79,49 @@
     
 
 }
+.link {
+    color: rgb(15, 10, 10);
+  }
+  .link:hover {
+     color: red
+  }
+  .spacing{
+      margin-bottom: 15px;
+  }
+  .footer{
+    background-color:rgb(3, 3, 3) ;
+    color: rgb(255, 251, 251);
+    text-decoration-color: black;
+    position: relative;
+    /* negative value of footer height */
+    height: 180px;
+    clear: both;
+
+}
+.registerForm{
+    margin-left: 320px;
+    /*text-align:center;*/
+    width: 50%;
+    border-right: black;
+}
+.rform{
+    display: inline-block;
+    width: 25%;
+}
+.Label{
+
+    /*padding-right: 160px;*/
+    margin-right: 95px;  
+}
+.svgplacement{
+    margin-left: 150px;
+    margin-bottom: 45px;
+}
+.registerPng{
+    width:570px;
+    margin-top: 20px;
+    margin-right: 25px;
+}
+.registerSpacing{
+    margin-left: 320px;
+}

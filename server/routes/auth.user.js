@@ -84,7 +84,7 @@ router.post('/register',
                .send(payload)
             }
             catch(err){
-               res.status(400).json({ msg: e.message });
+               res.status(400).json({ msg: err.message });
             }
                
                   
@@ -150,7 +150,7 @@ router.post('/login',  async (req, res) => {
       .send(payload)
    }
    catch(err){
-      res.status(400).json({ msg: e.message });
+      res.status(400).json({ msg: err.message });
    }
 });
 
@@ -160,16 +160,19 @@ router.post('/login',  async (req, res) => {
  * @access  Private
  */
 
+
 router.get('/user',async (req, res) => {
    try {
-      if(!req.session.userId){throw Error('User is not authenticated');}
+      if(!req.session.userId){ return res.status(400).json({ msg: "User is not authenticated" });}
+         //throw Error('User is not authenticated');}
      const user = await User.findById(req.session.userId).select('-password');
-     if (!user) throw Error('User does not exist');
-     res.json(user);
-   console.log(res.headersSent)
-   console.log(res.headers)
+     if (!user) { return res.status(400).json({ msg: "User does not exist" });}
+        //throw Error('User does not exist');}
+     return res.json(user);
+  // console.log(res.headersSent)
+  // console.log(res.headers)
    } catch (e) {
-     res.status(400).json({ msg: e.message });
+     return res.status(400).json({ msg: e.message });
    }
  });
 

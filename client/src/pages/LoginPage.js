@@ -71,6 +71,7 @@ class Login extends Component{
         //Attempt to login
         this.props.login(newUser);
        // console.log(`The message is : ${this.state.msg}`);
+       
 
     }
     changeValue = (e) => {

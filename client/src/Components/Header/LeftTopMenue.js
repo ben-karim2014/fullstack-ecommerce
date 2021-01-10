@@ -27,7 +27,7 @@ import {
 } from 'reactstrap'
 
 
-const Example = (props) => {
+const HeaderTop = (props) => {
   
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -62,9 +62,18 @@ const Example = (props) => {
       <FontAwesomeIcon icon={faUserAlt } /> Sign In / Account
       </DropdownToggle>
       <DropdownMenu color="dark">
-      <DropdownItem>Action</DropdownItem>
-      <DropdownItem>Action</DropdownItem>
-      <DropdownItem>Action</DropdownItem>
+      <DropdownItem>
+      <NavLink href="/Account/" className="link">JOIN US!</NavLink></DropdownItem>
+      <hr></hr>
+      <DropdownItem>
+      <NavLink href="/Account/" className="link">SIGN IN</NavLink>
+      </DropdownItem>
+      <DropdownItem>
+      <NavLink href="/Account/" className="link">MY ACCOUNT</NavLink></DropdownItem>
+      <DropdownItem><NavLink href="/Account/" className="link">ORDER HISTORY</NavLink></DropdownItem>
+      <DropdownItem><NavLink href="/Account/" className="link">PROFILE</NavLink></DropdownItem>
+
+
       </DropdownMenu>
       </Dropdown>
       </NavItem>
@@ -80,4 +89,4 @@ const Example = (props) => {
 }
 
 
-export default Example;
+export default HeaderTop;
