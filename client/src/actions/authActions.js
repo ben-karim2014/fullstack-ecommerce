@@ -26,10 +26,7 @@ export const loadUser = () => (dispatch, getState) =>{
     const config = {
         headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'http://localhost:3000',
-            'Access-Control-Allow-Methods': 'GET, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Access-Control-Allow-Credentials': 'true'
+            
             
         },
         withCredentials: true 
@@ -59,7 +56,7 @@ export const loadUser = () => (dispatch, getState) =>{
     // Register User
 }
 //Register user
-export const register = ({firstName, lastName, email, password, address})=> dispatch=>{
+export const register = ({firstName, lastName, email, password})=> dispatch=>{
 
     const config = {
         headers: {
@@ -69,7 +66,7 @@ export const register = ({firstName, lastName, email, password, address})=> disp
         withCredentials: true 
 
     }
-    const body = JSON.stringify({firstName, lastName, email, password, address})
+    const body = JSON.stringify({firstName, lastName, email, password})
     axios.post('/api/v1/users/register',body, config)
     .then(res=> {dispatch({
         type: REGISTER_SUCCESS,

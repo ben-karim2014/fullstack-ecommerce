@@ -59,15 +59,15 @@ class Regitser extends Component{
     onSubmit = e =>{
         this.props.clearErrors();
         e.preventDefault();
-        const {firstName, lastName, email, password, address} = this.state;
+        const {firstName, lastName, email, password} = this.state;
         //Create User Object
         const newUser =
         {
             firstName,
             lastName,
             email,
-            password,
-            address,
+            password
+          
         }
         //Attempt to register
         this.props.register(newUser);
@@ -81,7 +81,7 @@ class Regitser extends Component{
     }
     render(){
         return (
-            <div cladssName="Container">
+            <div className="Container">
             <TopHeader />
             <Row>
             <Col>
@@ -129,10 +129,7 @@ class Regitser extends Component{
                   </FormGroup>
                 </Col>
               </Row>
-              <FormGroup>
-                <Label for="address">Address</Label>
-                <Input type="text" name="address" id="address" placeholder="1234 Main St" onChange={this.changeValue}/>
-              </FormGroup>
+             
               <Button outline color="danger" size = "lg w-100">Sign in</Button>
             </Form>
             </div>

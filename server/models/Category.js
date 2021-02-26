@@ -12,13 +12,13 @@ mongoose.plugin(slug, options);
 
 // Category Schema
 const CategorySchema = mongoose.Schema({  
-  title: {
+  name: {
     type: String,
     trim: true,
     required: true,
     unique:true
   },
-  slug: { type: String, slug: 'title', unique: true },
+  slug: { type: String, slug: 'name', unique: true },
   description: {
     type: String,
     trim: true,

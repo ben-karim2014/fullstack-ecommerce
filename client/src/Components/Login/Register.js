@@ -110,10 +110,7 @@ class Regitser extends Component{
                   </FormGroup>
                 </Col>
               </Row>
-              <FormGroup className="ml-3 mr-3">
-                <Label for="address">Address</Label>
-                <Input type="text" name="address" id="address" placeholder="1234 Main St" onChange={this.changeValue}/>
-              </FormGroup>
+             
               <Button className="ml-3 mr-3">Sign in</Button>
             </Form>
 

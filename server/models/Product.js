@@ -8,59 +8,76 @@ const options = {
   truncate: 120
 };
 
+const reviewSchema = mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    rating: { type: Number, required: true },
+    comment: { type: String, required: true },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
+  },
+  {
+    timestamps: true,
+  }
+)
 mongoose.plugin(slug, options);
 
 // Product Schema
-const ProductSchema = mongoose.Schema({
-  sku: {
-    type: String,
-    required: true,
-    unique: true
-
+const productSchema = mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    brand: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    reviews: [reviewSchema],
+    rating: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    numReviews: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    price: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+    countInStock: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
   },
-  name: {
-    type: String,
-    required:true,
-    unique: true,
-    trim: true
-  },
-  slug: { type: String, slug: 'name', unique: true },
-  image: {
-    data: Buffer,
-    contentType: String
-  },
-  description: {
-    type: String,
-    trim: true
-  },
-  category:{
-    type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
-      required: true
-  },
-  quantity: {
-    type: Number
-  },
-  isInStock:{
-    type: Boolean,
-    default: false
-  },
-  price: {
-    type: Number
-  },
-  isTaxed: {
-    type: Boolean,
-    default: false
-  },
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category'
-  },
-  updated: Date,
-  created: {
-    type: Date,
-    default: Date.now
+  {
+    timestamps: true,
   }
-});
+)
 
-module.exports = mongoose.model('Product', ProductSchema);
+module.exports=mongoose.model('Product', productSchema)

@@ -18,22 +18,11 @@ password:{
     type:String,
     rquired:true
 },
-role: {
-    // 0 is for a normal user and 1 for site admin
-    type: Number,
-    enum: [0,1],
-    default: 0
-},
-address:{
-    type:String,
-    required: true
-},
-avatar:{
-    type:String
-},
-createdDate:{
-    type:Date,
-    default:Date.now
+isAdmin: {
+    type: Boolean,
+    required: true,
+    default: false
 }
-})
+
+}, {timestamps: true})
 module.exports=mongoose.model('User', userSchema)

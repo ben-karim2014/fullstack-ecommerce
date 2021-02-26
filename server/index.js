@@ -53,7 +53,7 @@ var store = new MongoDBStore(
 
 const user_route = require('./routes/auth.user')
 const categoryRoute = require('./routes/category')
-const productRoute = require('./routes/product')
+const productRoute = require('./routes/productRoutes')
 var csrf = require('csurf');
 
 
