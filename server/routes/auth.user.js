@@ -55,6 +55,7 @@ router.post('/register',
             res.set('Access-Control-Allow-Methods', 'POST, OPTIONS')
             res.set('Access-Control-Allow-Headers', 'Content-Type')
             res.set('Access-Control-Allow-Credentials', 'true')
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
             res.status(200)
                 // .cookie('token',token, options)
                 .send(payload)
@@ -92,8 +93,9 @@ router.post('/login', asyncHandler(async(req, res) => {
         res.set('Access-Control-Allow-Methods', 'POST, OPTIONS')
         res.set('Access-Control-Allow-Headers', 'Content-Type')
         res.set('Access-Control-Allow-Credentials', 'true')
-        res
-            .status(200)
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+
+        res.status(200)
             //.cookie('token',token, options)
             .send(payload)
     } catch (err) {
