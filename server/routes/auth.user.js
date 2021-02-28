@@ -4,10 +4,10 @@ const bycript = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { registerValidation, loginValidation } = require('./validationForm')
 const checkAuth = require('../middlewares/AuthChecker')
-var cors = require('cors')
+//var cors = require('cors')
 const asyncHandler = require('express-async-handler')
 
-router.use(cors());
+//router.use(cors());
 
 const User = require('../models/User')
 
@@ -51,11 +51,11 @@ router.post('/register',
         req.session.userId = savedUser._id;
 
         try {
-            res.set('Access-Control-Allow-Origin', 'http://localhost:3000')
-            res.set('Access-Control-Allow-Methods', 'POST, OPTIONS')
-            res.set('Access-Control-Allow-Headers', 'Content-Type')
-            res.set('Access-Control-Allow-Credentials', 'true')
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+            // res.set('Access-Control-Allow-Origin', 'http://localhost:3000')
+            // res.set('Access-Control-Allow-Methods', 'POST, OPTIONS')
+            // res.set('Access-Control-Allow-Headers', 'Content-Type')
+            // res.set('Access-Control-Allow-Credentials', 'true')
+            // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
             res.status(200)
                 // .cookie('token',token, options)
                 .send(payload)
@@ -65,7 +65,7 @@ router.post('/register',
     }))
 
 //Login route
-router.post('/login', cors(), asyncHandler(async(req, res) => {
+router.post('/login', asyncHandler(async(req, res) => {
 
     // Validating the data based on the schema in the validationForm
     const errors = loginValidation(req.body);
@@ -95,11 +95,11 @@ router.post('/login', cors(), asyncHandler(async(req, res) => {
     }
 
     try {
-        res.set('Access-Control-Allow-Origin', 'http://localhost:3000')
-        res.set('Access-Control-Allow-Methods', 'POST, OPTIONS')
-        res.set('Access-Control-Allow-Headers', 'Content-Type')
-        res.set('Access-Control-Allow-Credentials', 'true')
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+        // res.set('Access-Control-Allow-Origin', 'http://localhost:3000')
+        // res.set('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        // res.set('Access-Control-Allow-Headers', 'Content-Type')
+        // res.set('Access-Control-Allow-Credentials', 'true')
+        // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 
         res.status(200)
             //.cookie('token',token, options)
@@ -118,11 +118,6 @@ router.post('/login', cors(), asyncHandler(async(req, res) => {
 
 router.get('/user', asyncHandler(async(req, res) => {
     try {
-        res.set('Access-Control-Allow-Origin', 'http://localhost:3000')
-        res.set('Access-Control-Allow-Methods', 'POST, OPTIONS')
-        res.set('Access-Control-Allow-Headers', 'Content-Type')
-        res.set('Access-Control-Allow-Credentials', 'true')
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
         if (!req.session.userId) { return res.status(400).json({ msg: "User is not authenticated" }); }
         //throw Error('User is not authenticated');}
         const user = await User.findById(req.session.userId).select('-password');

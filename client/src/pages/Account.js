@@ -7,6 +7,7 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import TopHeader from '../Components/Header/TopHedaer'
 import NotLogged from './NotLoggedPage'
+import Profile from './userProfile'
 
 
 
@@ -27,7 +28,7 @@ export class Account extends Component{
         const {isAuthenticated, user} = this.props.auth
         return (
             <div className="App" >
-            { isAuthenticated ? <h1>This your account</h1> : <NotLogged/>}
+            { isAuthenticated ? <h1><Profile /></h1> : <NotLogged/>}
              </div>
         )
     }
