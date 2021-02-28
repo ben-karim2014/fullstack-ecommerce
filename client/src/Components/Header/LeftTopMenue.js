@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from 'reactstrap';
 import { BrowserRouter } from 'react-router-dom';
 import logo from './logoStore.png'
 import {faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {useDispatch, useSelector}  from 'react-redux'
+import {logout} from '../../actions/authActions'
+
 //import { Nav, NavItem,  NavLink } from 'reactstrap';
 import {
   Button,
@@ -32,11 +35,17 @@ const HeaderTop = (props) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth)
+  const {isloading, isAthenticated, user} = auth
 
+
+ const logoutHandler = () =>{
+dispatch(logout())
+ }
   return (
+
     <BrowserRouter>
-
-
     <div>
       <Container>
       <Row>
@@ -59,19 +68,21 @@ const HeaderTop = (props) => {
       <NavItem className="d-none d-lg-block mt-4 ml-5 pl-5">
       <Dropdown isOpen={dropdownOpen} toggle={toggle}>
       <DropdownToggle className="StoreLink" nav caret>
-      <FontAwesomeIcon icon={faUserAlt } /> Sign In / Account
+      <FontAwesomeIcon icon={faUserAlt } /> { user ? `Hi ${user.firstName}` : 'Sign In / Account' }
       </DropdownToggle>
       <DropdownMenu color="dark">
-      <DropdownItem>
-      <NavLink href="/Account/" className="link">JOIN US!</NavLink></DropdownItem>
+      
+      { user ? <DropdownItem><NavLink href="/Account/" className="link">MY ACCOUNT </NavLink> </DropdownItem> : <DropdownItem><NavLink href="/Account/" className="link">JOIN US! </NavLink></DropdownItem> }
+      
       <hr></hr>
-      <DropdownItem>
-      <NavLink href="/Account/" className="link">SIGN IN</NavLink>
-      </DropdownItem>
-      <DropdownItem>
-      <NavLink href="/Account/" className="link">MY ACCOUNT</NavLink></DropdownItem>
-      <DropdownItem><NavLink href="/Account/" className="link">ORDER HISTORY</NavLink></DropdownItem>
+      
+      { user ? `` : <DropdownItem><NavLink href="/Account/" className="link">SIGN IN </NavLink></DropdownItem> }
       <DropdownItem><NavLink href="/Account/" className="link">PROFILE</NavLink></DropdownItem>
+      <DropdownItem><NavLink href="/Account/" className="link">ORDER HISTORY</NavLink></DropdownItem>
+      <DropdownItem><NavLink href="/Account/" className="link">WALLET</NavLink></DropdownItem>
+      <DropdownItem><NavLink href="/Account/" className="link">WISH LISTS</NavLink></DropdownItem>
+      { user ? <DropdownItem><NavLink onClick={logoutHandler} className="link">SIGN OUT</NavLink></DropdownItem>: `` }
+      
 
 
       </DropdownMenu>

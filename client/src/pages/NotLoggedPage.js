@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { faEnvelope, faLock, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faLock, faEyeSlash, faExclamationTriangle} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import TopHeader from '../Components/Header/TopHedaer'
 import { Link } from 'react-router-dom'
@@ -7,6 +7,7 @@ import {login} from '../actions/authActions'
 import {clearErrors} from '../actions/errorActions'
 import TopMenue from '../Components/Header/TopMenue'
 import Footer from '../Components/footer'
+import Account from './Account'
 import {
     Button,
     Form,
@@ -49,6 +50,8 @@ class Login extends Component{
         login: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     }
+
+
     componentDidUpdate(prevProps){
         const {error} = this.props;
         
@@ -94,12 +97,15 @@ class Login extends Component{
         this.setState({
          [e.target.name] : e.target.value   })
     }
+    
     render(){
+     {if(this.props.isAthenticated){this.props.history.push('/Account')}}
         return (
             <div>
+               
             <TopHeader />
             
-            {this.state.msg ? (<Alert color="danger">{this.state.msg}</Alert>) : null}
+            {this.state.msg ? (<Alert color="danger"><FontAwesomeIcon icon={faExclamationTriangle} />{this.state.msg}</Alert>) : null}
             
            <Container fluid> 
            <Row className="spacing">

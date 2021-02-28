@@ -42,8 +42,15 @@ class Login extends Component{
         login: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     }
+    componentDidMount() {
+      const { error, history, location, isAthenticated } = this.props;
+      const redirect = location.search ? location.search.split('=')[1] : '/'
+      if (!isAthenticated) {
+          history.push(redirect)
+      }
+  }
     componentDidUpdate(prevProps){
-        const {error} = this.props;
+      const { error, history, location, isAthenticated } = this.props;
         
         if(error !== prevProps.error){
             if(error.id=== 'LOGIN_FAIL'){
@@ -53,6 +60,10 @@ class Login extends Component{
             else {
                 this.setState({ msg: null})
             }
+        }
+        const redirect = location.search ? location.search.split('=')[1] : '/'
+        if (!isAthenticated) {
+            history.push(redirect)
         }
 
     }

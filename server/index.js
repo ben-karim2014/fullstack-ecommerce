@@ -25,9 +25,9 @@ var store = new MongoDBStore(
         }
     },
     // function(error) {
-    //   // Should have gotten an error
-    //   console.log("Unable to connect to session store database")
-    // }
+      // Should have gotten an error
+      //console.log("Unable to connect to session store database")
+ // }
     );
 
     store.on('error', function(error) {
@@ -57,8 +57,9 @@ const productRoute = require('./routes/productRoutes')
 var csrf = require('csurf');
 
 
-
 connectMongo();
+
+
 
 
 const PORT =process.env.PORT || 3000;
@@ -68,7 +69,7 @@ const PORT =process.env.PORT || 3000;
 var csrfProtection = csrf({ cookie: true })
 app.use(express.json());
 app.use(morgan('dev'));
-//app.use(cors());
+app.use(cors());
 app.use(cookieParser())
 
 

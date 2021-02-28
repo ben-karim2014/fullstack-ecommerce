@@ -65,14 +65,20 @@ router.post('/register',
     }))
 
 //Login route
-router.post('/login', asyncHandler(async(req, res) => {
+router.post('/login', cors(), asyncHandler(async(req, res) => {
 
     // Validating the data based on the schema in the validationForm
     const errors = loginValidation(req.body);
     if (errors.error) { return (res.status(400).send(errors.error.details[0].message)) }
-
+    let loggedUser;
     //Check if the email exist in the database
-    const loggedUser = await User.findOne({ email: req.body.email });
+    
+        loggedUser = await User.findOne({ email: req.body.email });
+    
+    
+       
+   
+
     if (!loggedUser) { return res.status(400).send('Email or password is incorrect E'); }
 
     //If the email exist then Check if its password matches the one provided in the form
@@ -112,6 +118,11 @@ router.post('/login', asyncHandler(async(req, res) => {
 
 router.get('/user', asyncHandler(async(req, res) => {
     try {
+        res.set('Access-Control-Allow-Origin', 'http://localhost:3000')
+        res.set('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        res.set('Access-Control-Allow-Headers', 'Content-Type')
+        res.set('Access-Control-Allow-Credentials', 'true')
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
         if (!req.session.userId) { return res.status(400).json({ msg: "User is not authenticated" }); }
         //throw Error('User is not authenticated');}
         const user = await User.findById(req.session.userId).select('-password');

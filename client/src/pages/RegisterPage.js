@@ -42,8 +42,9 @@ class Regitser extends Component{
         register: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     }
+  
     componentDidUpdate(prevProps){
-        const {error} = this.props;
+      const { error, history, location, isAthenticated } = this.props;
         
         if(error !== prevProps.error){
             if(error.id=== 'REGISTER_FAIL'){
@@ -54,6 +55,10 @@ class Regitser extends Component{
                 this.setState({ msg: null})
             }
         }
+       // const redirect = location.search ? location.search.split('=')[1] : '/'
+       // if (!isAthenticated) {
+       //     history.push(redirect)
+       // }
 
     }
     onSubmit = e =>{
