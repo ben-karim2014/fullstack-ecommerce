@@ -95,13 +95,13 @@ export const register = ({ firstName, lastName, email, password }) => dispatch =
     }
     //logout user
 export const logout = () => dispatch => {
-    //document.cookie = "sid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "sid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     const config = {
         headers: {
             'Content-Type': 'application/json'
 
         },
-       // withCredentials: true
+        withCredentials: true
 
     }
     axios.delete('/api/v1/users/logout', config)
@@ -124,10 +124,9 @@ export const login = ({ email, password }) => dispatch => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
-            //  "Access-Control-Allow-Origin": "*",
+            // "Access-Control-Allow-Origin": "*",
             // 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
             // "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
-
 
         },
         withCredentials: true
