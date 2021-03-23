@@ -79,11 +79,11 @@ router.post('/login', asyncHandler(async(req, res) => {
        
    
 
-    if (!loggedUser) { return res.status(400).send('Email or password is incorrect E'); }
+    if (!loggedUser) { return res.status(400).send('Email or password is incorrect'); }
 
     //If the email exist then Check if its password matches the one provided in the form
     const passValidate = await bycript.compare(req.body.password, loggedUser.password);
-    if (!passValidate) { return res.status(400).send('Email or password is incorrect P'); }
+    if (!passValidate) { return res.status(400).send('Email or password is incorrect'); }
 
     req.session.userId = loggedUser._id;
     const payload = {
@@ -131,6 +131,25 @@ router.get('/user', asyncHandler(async(req, res) => {
     }
 }));
 
+//upfate user 
+
+router.get('/user', asyncHandler(async(req, res) => {
+    try {
+        if (!req.session.userId) { return res.status(400).json({ msg: "User is not authenticated" }); }
+        //throw Error('User is not authenticated');}
+        const user = await User.findById(req.session.userId).select('-password');
+        if (!user) { return res.status(400).json({ msg: "User does not exist" }); }
+        //throw Error('User does not exist');}
+        return res.json(user);
+        // console.log(res.headersSent)
+        // console.log(res.headers)
+    } catch (e) {
+        return res.status(400).json({ msg: e.message });
+    }
+}));
+
+
+
 
 router.delete('/logout', asyncHandler(async({ session }, res) => {
     try {
@@ -143,7 +162,7 @@ router.delete('/logout', asyncHandler(async({ session }, res) => {
                 res.send(userID);
             });
         } else {
-            throw new Error('Something went wrong');
+            throw new Error('Problem in destroying session or clearing cookie');
         }
 
     } catch (e) {

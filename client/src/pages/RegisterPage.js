@@ -77,6 +77,7 @@ class Regitser extends Component{
         //Attempt to register
         this.props.register(newUser);
         console.log(`The message is : ${this.state.msg}`);
+        e.target.className += " was-validated";
 
     }
     changeValue = (e) => {
@@ -103,7 +104,7 @@ class Regitser extends Component{
                 <Col>
                 <FormGroup>
                 <Label for="firstName" >Your first name</Label>
-                <Input type="text" name="firstName" id="firstName" placeholder="Enter your first name" onChange={this.changeValue}/>
+                <Input type="text" name="firstName" id="firstName" placeholder="Enter your first name" onChange={this.changeValue} required/>
               </FormGroup>
                 </Col>
                 </Row>
@@ -112,7 +113,7 @@ class Regitser extends Component{
                 <Col>
                 <FormGroup>
                 <Label for="lastName" >Your last name</Label>
-                <Input type="text" name="lastName" id="lastName" placeholder="Enter your last name" onChange={this.changeValue}/>
+                <Input type="text" name="lastName" id="lastName" placeholder="Enter your last name" onChange={this.changeValue} required/>
               </FormGroup>
                 </Col>
                 </Row>
@@ -122,7 +123,7 @@ class Regitser extends Component{
                 <Col >
                   <FormGroup>
                     <Label for="email">Email</Label>
-                    <Input type="email" name="email" id="email"  placeholder="Enter your email" onChange={this.changeValue}/>
+                    <Input type="email" name="email" id="email"  placeholder="Enter your email" onChange={this.changeValue} required/>
                   </FormGroup>
                 </Col>
                 </Row>

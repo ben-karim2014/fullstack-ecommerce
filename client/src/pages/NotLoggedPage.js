@@ -140,7 +140,7 @@ class Login extends Component{
                <FontAwesomeIcon icon={faLock} />
                </span>
              </div>
-             <Input type="password"  name='password' id='password' className="form-control" placeholder="Password" type={this.state.hidden1 ? 'password' : 'text'} onChange={this.changeValue}/> 
+             <Input type="password"  name='password' id='password' className="form-control" placeholder="Password" type={this.state.hidden1 ? 'password' : 'text'} onChange={this.changeValue} required/> 
             
              </InputGroup>
              

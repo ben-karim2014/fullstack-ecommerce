@@ -76,7 +76,7 @@ class Profile extends Component{
     onSubmit = e =>{
         this.props.clearErrors();
         e.preventDefault();
-        e.target.className += " was-validated";
+        //e.target.className += " was-validated";
 
         const {email, password} = this.state;
         //Create User Object
@@ -99,14 +99,14 @@ class Profile extends Component{
     }
     
     render(){
+        //{if(!this.props.isAthenticated){this.props.history.push('/Account')}}
         return (
             <div>
                
             <TopHeader />
-            
-            {this.state.msg ? (<Alert color="danger"><FontAwesomeIcon icon={faExclamationTriangle} />{this.state.msg}</Alert>) : null}
-            
-            <div>This user profile</div>
+            <Container>
+
+            </Container>
            <hr></hr>
            <Footer />
             </div>

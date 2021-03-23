@@ -5,14 +5,13 @@
   "main": "index.js",
   "scripts": {
     "client-install": "npm install --prefix client",
-    "server-install" :"npm install --prefix server",
+    "server-install": "npm install --prefix server",
     "server-start": "npm start --prefix server",
     "server-dev": "npm run dev --prefix server",
     "client-start": "npm start --prefix client",
     "build-client": "npm build --prefix client",
     "dev": "concurrently \"npm run server-dev\" \"npm run client-start\"",
     "start": "concurrently \"npm run server-start\" \"npm run client-start\""
-    
   },
   "repository": {
     "type": "git",
@@ -26,6 +25,7 @@
   },
   "homepage": "https://github.com/ben-karim2014/fullstack-ecommerce#readme",
   "dependencies": {
-    "concurrently": "^5.3.0"
+    "concurrently": "^5.3.0",
+    "node-sass": "^4.14.1"
   }
 }

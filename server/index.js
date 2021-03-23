@@ -64,9 +64,6 @@ connectMongo();
 
 const PORT =process.env.PORT || 3000;
 
-
-
-
 //middlewares bodyparser
 var csrfProtection = csrf({ cookie: true })
 app.use(express.json());

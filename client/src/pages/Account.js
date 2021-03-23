@@ -28,7 +28,7 @@ export class Account extends Component{
         const {isAuthenticated, user} = this.props.auth
         return (
             <div className="App" >
-            { isAuthenticated ? <h1><Profile /></h1> : <NotLogged/>}
+            { isAuthenticated ? <div><Profile /></div> : <NotLogged/>}
              </div>
         )
     }
